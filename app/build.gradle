@@ -22,7 +22,10 @@ android {
     // 注释冲突
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
-
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
@@ -47,4 +50,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'org.jsoup:jsoup:1.10.3'
 }

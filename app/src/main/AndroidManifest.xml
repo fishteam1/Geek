@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.geek.csdngeek">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".GeekApplication"
         android:allowBackup="true"

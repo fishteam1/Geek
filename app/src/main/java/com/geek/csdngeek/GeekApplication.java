@@ -17,8 +17,8 @@ public class GeekApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mIntance = this;
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(this);
     }
 
     public static GeekApplication getInstance() {
