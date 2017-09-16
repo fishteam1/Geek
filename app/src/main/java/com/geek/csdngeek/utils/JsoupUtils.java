@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * 网页爬虫数据解析
  * <p>教程：http://www.jianshu.com/p/a620a2664f58</p>
+ * <p>通过ID获取控件：http://bbs.csdn.net/topics/390874704</p>
  *
  * @Author:曾明
  * @Time:2017/9/16 16:51
@@ -25,7 +26,7 @@ import java.util.List;
 public class JsoupUtils {
 
     /**
-     * 获取数据内容
+     * 获取数据实体
      *
      * @param url
      */
@@ -34,21 +35,31 @@ public class JsoupUtils {
         try {
             Document doc = Jsoup.connect(url).get();
 //            Elements contents = doc.select("div[id=geek_list]");
+            //获取dl所有控件
             Elements contents = doc.select("dl.geek_list");
             for (int i = 0; i < contents.size(); i++) {
                 Geek geek = new Geek();
+                //获取修饰类为tracking-ad的dd控件
                 Elements dds = contents.get(i).select("dd.tracking-ad");
+                //获取span控件
                 Elements span = dds.select("span");
+                //获取span控件文本
                 String title = span.text();
                 geek.setTitle(title);
+                //获取span对应的链接
                 String uri = span.get(0).select("a").attr("href");
                 geek.setUrl(uri);
+                //获取修饰类为list-inline的ul控件
                 Elements uls = dds.select("ul.list-inline");
+                //获取ul控件中的li控件
                 Elements lis = uls.select("li");
+                //获取第二个li文本
                 String time = lis.get(1).text();//时间
                 geek.setTime(time);
+                //获取第三个li的文本
                 String forum = lis.get(2).select("a").text();//所属论坛
                 geek.setForum(forum);
+                //获取第四个li中em控件的文本
                 String count = lis.get(3).select("em").text();//阅读数量
                 geek.setCount(count);
                 geeks.add(geek);
