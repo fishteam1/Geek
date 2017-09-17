@@ -1,19 +1,34 @@
 package com.geek.csdngeek.ui.activity;
 
 import android.os.AsyncTask;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
 import com.geek.csdngeek.R;
 import com.geek.csdngeek.enties.Geek;
-import com.geek.csdngeek.enties.GeekTitle;
+import com.geek.csdngeek.ui.adapter.PageAdapter;
 import com.geek.csdngeek.ui.base.BaseActivity;
 import com.geek.csdngeek.utils.Constanct;
 import com.geek.csdngeek.utils.JsoupUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.vp_geek)
+    ViewPager vpGeek;
+
+    private PageAdapter mAdapter;
 
     @Override
     protected void initLayout() {
@@ -22,17 +37,20 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void beforeView() {
-
     }
 
     @Override
     protected void afterView() {
-        findViewById(R.id.btn_get_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new TestJsoup().execute("http://geek.csdn.net/hot");
-            }
-        });
+        toolbar.setTitle("极客头条");
+        setSupportActionBar(toolbar);
+        mAdapter = new PageAdapter(getSupportFragmentManager());
+        vpGeek.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(vpGeek);
+    }
+
+    @OnClick(R.id.fab)
+    public void refresh(View view) {
+        //更新数据
     }
 
     class TestJsoup extends AsyncTask<String, Integer, List<Geek>> {

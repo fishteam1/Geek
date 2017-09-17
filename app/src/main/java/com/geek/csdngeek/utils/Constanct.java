@@ -10,6 +10,7 @@ package com.geek.csdngeek.utils;
 public interface Constanct {
     String TAG = "Geek";
     String URL_BASE = "http://geek.csdn.net";
+    String URL_UPDATE="/service/news/get_news_list?jsonpcallback=?";
 
     /**
      * Crash日志保存路径

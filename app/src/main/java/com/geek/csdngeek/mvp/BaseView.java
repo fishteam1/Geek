@@ -1,9 +1,9 @@
 package com.geek.csdngeek.mvp;
 
 /**
- * @Author:曾明
- * @Time:2017/9/16 16:07
- * @Description:
+ * 作者：morse on 2017/9/17 22:40
+ * 邮箱：zm902485jgsurjgc@163.com
  */
+
 public interface BaseView {
 }

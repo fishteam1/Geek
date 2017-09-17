@@ -41,6 +41,11 @@ public abstract class BaseAbstractAdapter<T> extends RecyclerView.Adapter<BaseHo
         mItemLongClickListener = itemLongClickListener;
     }
 
+    /**
+     * 绑定试图
+     *
+     * @return
+     */
     protected abstract BaseHolder bindView();
 
     public BaseAbstractAdapter(Context context) {
