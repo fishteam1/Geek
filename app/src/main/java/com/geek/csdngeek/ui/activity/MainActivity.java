@@ -45,6 +45,9 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         mAdapter = new PageAdapter(getSupportFragmentManager());
         vpGeek.setAdapter(mAdapter);
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
         tabLayout.setupWithViewPager(vpGeek);
     }
 
