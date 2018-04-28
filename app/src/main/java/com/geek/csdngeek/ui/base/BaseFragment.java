@@ -8,17 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.morse.mvplibrary.mvp.BaseContract;
+import com.morse.mvplibrary.ui.fragment.MVPFragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
  * 实现懒加载fragment基类
  *
- * @Author:曾明
  * @Time:2017/9/16 15:27
  * @Description:
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<V extends BaseContract.IView, P extends BaseContract.IPresenter<V>> extends MVPFragment<V, P> {
 
     protected Context mContext;
     protected View mView;
@@ -52,14 +54,25 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        try {
-            mView = initLayout(inflater, container);
-            unbinder = ButterKnife.bind(this, mView);
-            isPrepared = true;
-            lazyLoad();
-        } catch (Exception e) {
-            e.printStackTrace();
+        super.onCreateView(inflater, container, savedInstanceState);
+        if (mView == null) {
+            try {
+                mView = initLayout(inflater, container);
+                unbinder = ButterKnife.bind(this, mView);
+                isPrepared = true;
+                lazyLoad();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        //判断Fragment对应的Activity是否存在这个视图
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null) {
+            //如果存在,那么我就干掉,重写添加,这样的方式我们就可以缓存视图
+            parent.removeView(mView);
+        }
+
         return mView;
     }
 
@@ -98,7 +111,12 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        unbinder.unbind();
+        if (null != unbinder) {
+            unbinder.unbind();
+            unbinder = null;
+        }
+        isPrepared = false;
+        isVisible = false;
         super.onDestroyView();
     }
 }

@@ -120,6 +120,13 @@ public abstract class BaseAbstractAdapter<T> extends RecyclerView.Adapter<BaseHo
         mItems.remove(item);
     }
 
+    public T getItem(int position) {
+        if (null == mItems || mItems.isEmpty() || position >= mItems.size()) {
+            return null;
+        }
+        return mItems.get(position);
+    }
+
     /**
      * 删除适配数据
      *

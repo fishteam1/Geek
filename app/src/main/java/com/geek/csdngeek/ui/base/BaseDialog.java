@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * 对话框基类
  *
- * @Author:曾明
+ * @Author:morse
  * @Time:2017/9/16 15:33
  * @Description:
  */

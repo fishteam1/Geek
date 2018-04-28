@@ -1,12 +1,14 @@
 package com.geek.csdngeek.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.geek.csdngeek.enties.Geek;
-import com.geek.csdngeek.enties.GeekTitle;
+import com.geek.csdngeek.enties.Title;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -19,7 +21,6 @@ import java.util.List;
  * <p>教程：http://www.jianshu.com/p/a620a2664f58</p>
  * <p>通过ID获取控件：http://bbs.csdn.net/topics/390874704</p>
  *
- * @Author:曾明
  * @Time:2017/9/16 16:51
  * @Description:
  */
@@ -35,7 +36,7 @@ public class JsoupUtils {
         try {
             Document doc = Jsoup.connect(url).get();
 //            Elements contents = doc.select("div[id=geek_list]");
-            //获取dl所有控件
+            //获取id为geek_list的所有控件
             Elements contents = doc.select("dl.geek_list");
             for (int i = 0; i < contents.size(); i++) {
                 Geek geek = new Geek();
@@ -47,8 +48,17 @@ public class JsoupUtils {
                 String title = span.text();
                 geek.setTitle(title);
                 //获取span对应的链接
-                String uri = span.get(0).select("a").attr("href");
-                geek.setUrl(uri);
+                for (Element element : span) {
+                    Elements elements = element.getElementsByClass("title");
+                    if (elements.size() > 0) {
+                        geek.setUrl(elements.first().select("a").attr("href"));
+                        break;
+                    }
+                }
+                if (TextUtils.isEmpty(geek.getUrl())) {
+                    String uri = span.last().select("a").attr("href");
+                    geek.setUrl(uri);
+                }
                 //获取修饰类为list-inline的ul控件
                 Elements uls = dds.select("ul.list-inline");
                 //获取ul控件中的li控件
@@ -77,8 +87,8 @@ public class JsoupUtils {
      * @param url
      * @return
      */
-    public static List<GeekTitle> getTitle(String url) {
-        List<GeekTitle> titles = new ArrayList<>();
+    public static List<Title> getTitle(String url) {
+        List<Title> titles = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(url).get();
             //获取标题列表，找到类：top_nav
@@ -96,7 +106,7 @@ public class JsoupUtils {
                 return titles;
             }
             for (int i = 0; i < titleList.size(); i++) {
-                GeekTitle geek = new GeekTitle();
+                Title geek = new Title();
                 //获取标题
                 geek.setTitle(titleList.get(i));
                 //获取标题对应的url链接

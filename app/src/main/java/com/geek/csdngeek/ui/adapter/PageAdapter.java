@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.geek.csdngeek.ui.base.BaseFragment;
 import com.geek.csdngeek.ui.fragment.BlogFragment;
+import com.geek.csdngeek.utils.Constanct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +19,18 @@ import java.util.List;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private List<BaseFragment> mFragment;
+    private BaseFragment[] mFragment;//使用数组解决Can't change tag of fragment BlogFragment{c233b7e id=0x7f0800c3 android:switcher:2131230915:3}的问题
 
     public PageAdapter(FragmentManager fm) {
         super(fm);
-        mFragment = new ArrayList<>();
+        mFragment = new BaseFragment[Constanct.MAX_PAGE_SIZE];
     }
 
     @Override
     public Fragment getItem(int position) {
         BaseFragment fragment = null;
         if (position < getCount()) {
-            fragment = mFragment.get(position);
+            fragment = mFragment[position];
         }
         if (null == fragment) {
             fragment = new BlogFragment();
@@ -37,13 +38,13 @@ public class PageAdapter extends FragmentPagerAdapter {
             //fragment通过setArguments传递参数
             bundle.putInt("blog_type", position);
             fragment.setArguments(bundle);
-            mFragment.add(fragment);
+            mFragment[position] = fragment;
         }
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return mFragment.size();
+        return mFragment.length;
     }
 }

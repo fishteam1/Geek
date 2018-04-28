@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 /**
  * 更新app service
  *
- * @Author:曾明
+ * @Author:morse
  * @Time:2017/9/16 15:54
  * @Description:
  */

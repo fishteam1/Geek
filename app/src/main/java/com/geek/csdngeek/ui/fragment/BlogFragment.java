@@ -1,14 +1,26 @@
 package com.geek.csdngeek.ui.fragment;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.geek.csdngeek.R;
+import com.geek.csdngeek.enties.Geek;
+import com.geek.csdngeek.ui.activity.GeekDetailActivity;
 import com.geek.csdngeek.ui.adapter.BlogAdapter;
+import com.geek.csdngeek.ui.base.BaseAbstractAdapter;
 import com.geek.csdngeek.ui.base.BaseFragment;
+import com.geek.csdngeek.utils.Constanct;
+import com.geek.csdngeek.utils.JsoupUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -16,7 +28,8 @@ import butterknife.BindView;
  * 作者：morse on 2017/9/17 21:50
  * 邮箱：zm902485jgsurjgc@163.com
  */
-public class BlogFragment extends BaseFragment {
+public class BlogFragment extends BaseFragment<BlogView, BlogPresenter> implements BlogView,
+        BaseAbstractAdapter.IItemClickListener {
 
     @BindView(R.id.rv_blog)
     RecyclerView rvBlog;
@@ -79,18 +92,53 @@ public class BlogFragment extends BaseFragment {
 
     @Override
     protected void afterView() {
-        mAdapter = new BlogAdapter(mContext);
-        rvBlog.setAdapter(mAdapter);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvBlog.setLayoutManager(manager);
+        rvBlog.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
+//        rvBlog.addItemDecoration(new SpaceItemDecoration(30));
+        getBlogs();
+    }
 
-        getBlogs(0);
+    @Override
+    public BlogPresenter createPresenter() {
+        return new BlogPresenter();
     }
 
     /**
      * 获取博客列表
-     *
-     * @param page 请求的页面
      */
-    private void getBlogs(int page) {
+    private void getBlogs() {
+        getPresenter().getBlogs(mBlogType);
+    }
 
+    @Override
+    public void onItemClick(int position) {
+        Geek geek = mAdapter.getItem(position);
+        if (null != geek) {
+            Intent intent = new Intent(getContext(), GeekDetailActivity.class);
+            intent.putExtra("geek", geek);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccess(List<Geek> geeks) {
+        if (null == geeks || geeks.isEmpty()) {
+            return;
+        }
+        if (null == mAdapter) {
+            mAdapter = new BlogAdapter(mContext);
+            mAdapter.setItemClickListener(BlogFragment.this);
+            rvBlog.setAdapter(mAdapter);
+            mAdapter.setItems(geeks);
+        } else {
+            mAdapter.addItems(geeks);
+        }
     }
 }

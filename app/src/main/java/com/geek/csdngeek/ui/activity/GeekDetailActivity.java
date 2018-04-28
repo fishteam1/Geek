@@ -5,12 +5,22 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.geek.csdngeek.R;
+import com.geek.csdngeek.enties.Geek;
 import com.geek.csdngeek.ui.base.BaseActivity;
+import com.geek.csdngeek.ui.base.BaseMVPActivity;
+import com.geek.csdngeek.utils.GeekWebClient;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -33,6 +43,8 @@ public class GeekDetailActivity extends BaseActivity {
     @BindView(R.id.fab_detail)
     FloatingActionButton fabDetail;
 
+    private Geek mGeek;
+
     @Override
     protected void initLayout() {
         setContentView(R.layout.activity_detail);
@@ -40,12 +52,26 @@ public class GeekDetailActivity extends BaseActivity {
 
     @Override
     protected void beforeView() {
-
+        mGeek = (Geek) getIntent().getSerializableExtra("geek");
     }
 
     @Override
     protected void afterView() {
-        setTitle("极客头条详情页");
+        tbDetailToolbar.setTitle(mGeek.getTitle());
+        setSupportActionBar(tbDetailToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tbDetailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+//        ctlDetailCollapsing.setTitle("CollapsingToolbarLayout");
+        //通过CollapsingToolbarLayout修改字体颜色
+//        ctlDetailCollapsing.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
+//        ctlDetailCollapsing.setCollapsedTitleTextColor(Color.GREEN);//设置收缩后Toolbar上字体的颜色
+        wvDetail.loadUrl(mGeek.getUrl());
+        wvDetail.setWebViewClient(new GeekWebClient());
 
         fabDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,5 +85,21 @@ public class GeekDetailActivity extends BaseActivity {
                         }).show();
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode && null != wvDetail && wvDetail.canGoBack()) {
+            wvDetail.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        wvDetail.removeAllViews();
+        wvDetail.destroy();
+        super.onDestroy();
     }
 }

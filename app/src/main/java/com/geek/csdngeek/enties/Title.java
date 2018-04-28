@@ -1,11 +1,11 @@
 package com.geek.csdngeek.enties;
 
 /**
- * @Author:曾明
+ * @Author:morse
  * @Time:2017/9/16 17:05
  * @Description:
  */
-public class GeekTitle {
+public class Title {
     private String title;
     private String url;
 

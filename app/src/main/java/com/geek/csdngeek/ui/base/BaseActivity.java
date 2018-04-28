@@ -7,14 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.ButterKnife;
 
 /**
- * activity基类
- *
- * @Author:曾明
- * @Time:2017/9/16 15:23
- * @Description:
+ * Created by admin on 2018/4/28.
  */
-public abstract class BaseActivity extends AppCompatActivity {
 
+public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 初始化窗口信息
      */

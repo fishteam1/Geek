@@ -16,7 +16,7 @@ import butterknife.BindView;
  * 邮箱：zm902485jgsurjgc@163.com
  */
 
-public class BlogAdapter extends BaseAbstractAdapter<Geek> {
+public class BlogAdapter extends BaseAbstractAdapter<Geek> implements View.OnClickListener {
 
     public BlogAdapter(Context context) {
         super(context);
@@ -31,10 +31,20 @@ public class BlogAdapter extends BaseAbstractAdapter<Geek> {
     public void onBindViewHolder(BaseHolder holder, int position) {
         BlogHolder blogHolder = (BlogHolder) holder;
         Geek item = mItems.get(position);
+        blogHolder.itemView.setTag(position);
+        blogHolder.itemView.setOnClickListener(this);
         blogHolder.tvTitle.setText(item.getTitle());
         blogHolder.tvTime.setText(item.getTime());
         blogHolder.tvForum.setText(item.getForum());
         blogHolder.tvCount.setText(item.getCount());
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        if (null != mItemClickListener) {
+            mItemClickListener.onItemClick(position);
+        }
     }
 
     class BlogHolder extends BaseHolder {

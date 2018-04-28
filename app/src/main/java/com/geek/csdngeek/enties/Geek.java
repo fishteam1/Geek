@@ -1,11 +1,14 @@
 package com.geek.csdngeek.enties;
 
+import java.io.Serializable;
+
 /**
- * @Author:曾明
+ * @Author:morse
  * @Time:2017/9/16 18:14
  * @Description:
  */
-public class Geek {
+public class Geek implements Serializable {
+    private static final long serialVersionUID = 7667547518316315459L;
     private String url;
     private String title;
     private String time;
