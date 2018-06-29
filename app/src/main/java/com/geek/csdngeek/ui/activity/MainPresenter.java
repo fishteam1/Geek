@@ -3,7 +3,6 @@ package com.geek.csdngeek.ui.activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.geek.csdngeek.enties.Title;
 import com.geek.csdngeek.utils.Constanct;
 import com.geek.csdngeek.utils.JsoupUtils;
 import com.morse.mvplibrary.mvp.BasePresenter;
@@ -36,7 +35,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
         @Override
         protected List<Title> doInBackground(String... strings) {
-            return JsoupUtils.getTitle("http://geek.csdn.net/");
+            return JsoupUtils.getTitle("https://www.csdn.net/");
         }
     }
 

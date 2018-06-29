@@ -5,22 +5,15 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.geek.csdngeek.R;
-import com.geek.csdngeek.enties.Geek;
+import com.geek.csdngeek.enties.Blog;
 import com.geek.csdngeek.ui.base.BaseActivity;
-import com.geek.csdngeek.ui.base.BaseMVPActivity;
 import com.geek.csdngeek.utils.GeekWebClient;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -43,7 +36,7 @@ public class GeekDetailActivity extends BaseActivity {
     @BindView(R.id.fab_detail)
     FloatingActionButton fabDetail;
 
-    private Geek mGeek;
+    private Blog mBlog;
 
     @Override
     protected void initLayout() {
@@ -52,12 +45,12 @@ public class GeekDetailActivity extends BaseActivity {
 
     @Override
     protected void beforeView() {
-        mGeek = (Geek) getIntent().getSerializableExtra("geek");
+        mBlog = (Blog) getIntent().getSerializableExtra("blog");
     }
 
     @Override
     protected void afterView() {
-        tbDetailToolbar.setTitle(mGeek.getTitle());
+        tbDetailToolbar.setTitle(mBlog.getTitle());
         setSupportActionBar(tbDetailToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbDetailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -70,7 +63,7 @@ public class GeekDetailActivity extends BaseActivity {
         //通过CollapsingToolbarLayout修改字体颜色
 //        ctlDetailCollapsing.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
 //        ctlDetailCollapsing.setCollapsedTitleTextColor(Color.GREEN);//设置收缩后Toolbar上字体的颜色
-        wvDetail.loadUrl(mGeek.getUrl());
+        wvDetail.loadUrl(mBlog.getUrl());
         wvDetail.setWebViewClient(new GeekWebClient());
 
         fabDetail.setOnClickListener(new View.OnClickListener() {

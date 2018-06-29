@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="titles">
+        <item>推荐</item>
+        <item>最新文章</item>
+        <item>关注</item>
+        <item>资讯</item>
+        <item>人工智能</item>
+        <item>云计算/大数据</item>
+        <item>区块链</item>
+        <item>数据库</item>
+        <item>程序人生</item>
+        <item>游戏开发</item>
+        <item>研发管理</item>
+        <item>前端</item>
+        <item>移动开发</item>
+        <item>物联网</item>
+        <item>运维</item>
+        <item>计算机基础</item>
+        <item>编程语言</item>
+        <item>架构</item>
+        <item>音视频开发</item>
+        <item>安全</item>
+        <item>其他</item>
+    </array>
+
+</resources>

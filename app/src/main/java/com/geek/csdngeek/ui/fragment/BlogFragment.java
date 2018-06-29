@@ -1,24 +1,20 @@
 package com.geek.csdngeek.ui.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.geek.csdngeek.R;
-import com.geek.csdngeek.enties.Geek;
+import com.geek.csdngeek.enties.Blog;
 import com.geek.csdngeek.ui.activity.GeekDetailActivity;
 import com.geek.csdngeek.ui.adapter.BlogAdapter;
 import com.geek.csdngeek.ui.base.BaseAbstractAdapter;
 import com.geek.csdngeek.ui.base.BaseFragment;
-import com.geek.csdngeek.utils.Constanct;
-import com.geek.csdngeek.utils.JsoupUtils;
 
 import java.util.List;
 
@@ -28,14 +24,14 @@ import butterknife.BindView;
  * 作者：morse on 2017/9/17 21:50
  * 邮箱：zm902485jgsurjgc@163.com
  */
-public class BlogFragment extends BaseFragment<BlogView, BlogPresenter> implements BlogView,
+public class BlogFragment extends BaseFragment<BlogContract.BlogView, BlogPresenter> implements BlogContract.BlogView,
         BaseAbstractAdapter.IItemClickListener {
 
     @BindView(R.id.rv_blog)
     RecyclerView rvBlog;
 
     private BlogAdapter mAdapter;
-    private String mBlogType = "/hot";
+    private String mBlogType = "home";
 
     @Override
     protected View initLayout(LayoutInflater inflater, ViewGroup container) {
@@ -53,41 +49,49 @@ public class BlogFragment extends BaseFragment<BlogView, BlogPresenter> implemen
     private String getBlogType(int type) {
         switch (type) {
             case 0:
-                return "/hot";
+                return "home";
             case 1:
-                return "/new";
+                return "watchers";
             case 2:
-                return "/news";
+                return "newarticles";
             case 3:
-                return "/cloud";
+                return "news";
             case 4:
-                return "/bigdata";
+                return "ai";
             case 5:
-                return "/AI";
+                return "cloud";
             case 6:
-                return "/iot";
+                return "blockchain";
             case 7:
-                return "/language";
+                return "db";
             case 8:
-                return "/database";
+                return "career";
             case 9:
-                return "/frontend";
+                return "game";
             case 10:
-                return "/mobile";
+                return "engineering";
             case 11:
-                return "/os";
+                return "web";
             case 12:
-                return "/game";
+                return "mobile";
             case 13:
-                return "/tools";
+                return "iot";
             case 14:
-                return "/se";
+                return "ops";
             case 15:
-                return "/career";
+                return "fund";
             case 16:
-                return "/osproject";
+                return "lang";
+            case 17:
+                return "arch";
+            case 18:
+                return "avi";
+            case 19:
+                return "sec";
+            case 20:
+                return "other";
         }
-        return "/hot";
+        return "home";
     }
 
     @Override
@@ -114,10 +118,10 @@ public class BlogFragment extends BaseFragment<BlogView, BlogPresenter> implemen
 
     @Override
     public void onItemClick(int position) {
-        Geek geek = mAdapter.getItem(position);
-        if (null != geek) {
+        Blog blog = mAdapter.getItem(position);
+        if (null != blog) {
             Intent intent = new Intent(getContext(), GeekDetailActivity.class);
-            intent.putExtra("geek", geek);
+            intent.putExtra("blog", blog);
             startActivity(intent);
         }
     }
@@ -128,17 +132,17 @@ public class BlogFragment extends BaseFragment<BlogView, BlogPresenter> implemen
     }
 
     @Override
-    public void onSuccess(List<Geek> geeks) {
-        if (null == geeks || geeks.isEmpty()) {
+    public void onSuccess(List<Blog> blogs) {
+        if (null == blogs || blogs.isEmpty()) {
             return;
         }
         if (null == mAdapter) {
             mAdapter = new BlogAdapter(mContext);
             mAdapter.setItemClickListener(BlogFragment.this);
             rvBlog.setAdapter(mAdapter);
-            mAdapter.setItems(geeks);
+            mAdapter.setItems(blogs);
         } else {
-            mAdapter.addItems(geeks);
+            mAdapter.addItems(blogs);
         }
     }
 }

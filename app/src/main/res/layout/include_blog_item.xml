@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="#80cbc4"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="5dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
     app:contentPadding="10dp"
-    app:elevation="5dp">
+    app:elevation="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,6 +47,13 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_blog_title"
             android:text="博客阅读量" />
+
+        <TextView
+            android:id="@+id/tv_blog_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_blog_public_time" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

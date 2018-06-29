@@ -1,5 +1,7 @@
 package com.geek.csdngeek.network;
 
+import com.geek.csdngeek.utils.Constanct;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -11,9 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @Description:
  */
 public abstract class RetrofitUtils {
-
-    //服务器路径
-    private static final String API_SERVER = "http://192.168.16.147:8080";
 
     private static Retrofit mRetrofit;
     private static OkHttpClient mOkHttpClient;
@@ -31,7 +30,7 @@ public abstract class RetrofitUtils {
                 mOkHttpClient = OkHttpUtils.getOkHttpClient();
             }
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl(API_SERVER + "/")
+                    .baseUrl(Constanct.URL_BASE)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mOkHttpClient)

@@ -6,10 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.geek.csdngeek.R;
-import com.geek.csdngeek.enties.Title;
 import com.geek.csdngeek.ui.adapter.PageAdapter;
 import com.geek.csdngeek.ui.base.BaseMVPActivity;
-import com.geek.csdngeek.utils.Constanct;
 
 import java.util.List;
 
@@ -45,11 +43,10 @@ public class MainActivity extends BaseMVPActivity<MainView, MainPresenter> imple
         vpGeek.setAdapter(mAdapter);
         vpGeek.setCurrentItem(0);
 
-        for (int i = 0; i < Constanct.MAX_PAGE_SIZE; i++) {
-            tabLayout.addTab(tabLayout.newTab());
+        for (int i = 0; i < getResources().getStringArray(R.array.titles).length; i++) {
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getStringArray(R.array.titles)[i]));
         }
         tabLayout.setupWithViewPager(vpGeek);
-        getPresenter().getTitle();
     }
 
     @Override

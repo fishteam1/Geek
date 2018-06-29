@@ -3,9 +3,6 @@ package com.geek.csdngeek.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.geek.csdngeek.enties.Geek;
-import com.geek.csdngeek.enties.Title;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +10,6 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -91,26 +87,28 @@ public class JsoupUtils {
         List<Title> titles = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(url).get();
-            //获取标题列表，找到类：top_nav
-            Elements divEle = doc.select("div.top_nav");
+            //获取标题列表，找到类：nav_com
+            Elements divEle = doc.select("div.nav_com");
+            if (null == divEle || divEle.size() <= 0) {
+                return null;
+            }
             //获取标题文本
             List<String> tempTitles = divEle.eachText();
             if (null == tempTitles || tempTitles.isEmpty()) {
                 return titles;
             }
             String[] title = tempTitles.get(0).split(" ");
-            List<String> titleList = Arrays.asList(title);
             //获取标题对应的连接，在列表ul里面，找到类：list-unstyled，对应列表中的属性“a”
-            Elements urls = divEle.select("ul.list-unstyled").select("a");
+            List<String> urls = divEle.first().select("li").select("a").eachAttr("href");
             if (null == urls || urls.isEmpty()) {
                 return titles;
             }
-            for (int i = 0; i < titleList.size(); i++) {
+            for (int i = 0; i < urls.size(); i++) {
                 Title geek = new Title();
                 //获取标题
-                geek.setTitle(titleList.get(i));
+                geek.setTitle(title[i]);
                 //获取标题对应的url链接
-                geek.setUrl(urls.get(i).attr("href"));
+                geek.setUrl(urls.get(i));
                 titles.add(geek);
             }
         } catch (IOException e) {

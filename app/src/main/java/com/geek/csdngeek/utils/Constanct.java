@@ -8,10 +8,10 @@ package com.geek.csdngeek.utils;
  */
 public interface Constanct {
     String TAG = "Geek";
-    String URL_BASE = "http://geek.csdn.net";
+    String URL_BASE = "https://www.csdn.net/";
     String URL_UPDATE = "/service/news/get_news_list?jsonpcallback=?";
 
-    int MAX_PAGE_SIZE = 17;
+    int MAX_PAGE_SIZE = 21;
 
     /**
      * Crash日志保存路径

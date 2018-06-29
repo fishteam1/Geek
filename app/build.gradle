@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.geek.csdngeek"
         minSdkVersion 15
@@ -24,6 +24,10 @@ android {
         exclude 'META-INF/NOTICE' // will not include NOTICE file
         exclude 'META-INF/LICENSE' // will not include LICENSE file
         exclude 'META-INF/rxjava.properties'
+    }
+
+    dataBinding {
+        enabled true
     }
 }
 

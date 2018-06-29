@@ -1,6 +1,5 @@
 package com.geek.csdngeek.ui.activity;
 
-import com.geek.csdngeek.enties.Title;
 import com.morse.mvplibrary.mvp.BaseContract;
 
 import java.util.List;
