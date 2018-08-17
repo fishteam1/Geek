@@ -1,20 +1,18 @@
 package com.geek.csdngeek.ui.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.geek.csdngeek.R;
+import com.geek.csdngeek.model.MainModel;
 import com.geek.csdngeek.ui.adapter.PageAdapter;
-import com.geek.csdngeek.ui.base.BaseMVPActivity;
-
-import java.util.List;
+import com.geek.csdngeek.ui.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class MainActivity extends BaseMVPActivity<MainView, MainPresenter> implements MainView {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -22,6 +20,8 @@ public class MainActivity extends BaseMVPActivity<MainView, MainPresenter> imple
     TabLayout tabLayout;
     @BindView(R.id.vp_geek)
     ViewPager vpGeek;
+
+    private MainModel mModel;
 
     private PageAdapter mAdapter;
 
@@ -44,27 +44,17 @@ public class MainActivity extends BaseMVPActivity<MainView, MainPresenter> imple
         vpGeek.setCurrentItem(0);
 
         for (int i = 0; i < getResources().getStringArray(R.array.titles).length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(getResources().getStringArray(R.array.titles)[i]));
+            tabLayout.addTab(tabLayout.newTab());
         }
         tabLayout.setupWithViewPager(vpGeek);
-    }
 
-    @Override
-    public MainPresenter createPresenter() {
-        return new MainPresenter();
-    }
-
-    @OnClick(R.id.fab)
-    public void refresh(View view) {
-        //更新数据
-    }
-
-    @Override
-    public void onSuccess(List<Title> titles) {
-        if (null != titles && !titles.isEmpty()) {
-            for (int i = 0; i < titles.size(); i++) {
-                tabLayout.getTabAt(i).setText(titles.get(i).getTitle());
-            }
+        //tabLayout.setupWithViewPager()方法将会重置tabLayout，为了让TabLayout的标题显示出来，只能在该方法调用之后再去设置标题
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setText(getResources().getStringArray(R.array.titles)[i]);
         }
+
+        mModel = ViewModelProviders.of(this).get(MainModel.class);
+
+        mModel.getBlog();
     }
 }

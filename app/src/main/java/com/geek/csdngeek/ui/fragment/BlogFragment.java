@@ -1,5 +1,6 @@
 package com.geek.csdngeek.ui.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,11 +25,12 @@ import butterknife.BindView;
  * 作者：morse on 2017/9/17 21:50
  * 邮箱：zm902485jgsurjgc@163.com
  */
-public class BlogFragment extends BaseFragment<BlogContract.BlogView, BlogPresenter> implements BlogContract.BlogView,
-        BaseAbstractAdapter.IItemClickListener {
+public class BlogFragment extends BaseFragment implements BaseAbstractAdapter.IItemClickListener {
 
     @BindView(R.id.rv_blog)
     RecyclerView rvBlog;
+
+    private BlogViewModel mModel;
 
     private BlogAdapter mAdapter;
     private String mBlogType = "home";
@@ -101,19 +103,15 @@ public class BlogFragment extends BaseFragment<BlogContract.BlogView, BlogPresen
         rvBlog.setLayoutManager(manager);
         rvBlog.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
 //        rvBlog.addItemDecoration(new SpaceItemDecoration(30));
+        mModel = ViewModelProviders.of(this).get(BlogViewModel.class);
         getBlogs();
-    }
-
-    @Override
-    public BlogPresenter createPresenter() {
-        return new BlogPresenter();
     }
 
     /**
      * 获取博客列表
      */
     private void getBlogs() {
-        getPresenter().getBlogs(mBlogType);
+        mModel.getBlog();
     }
 
     @Override
@@ -126,12 +124,10 @@ public class BlogFragment extends BaseFragment<BlogContract.BlogView, BlogPresen
         }
     }
 
-    @Override
     public void onFailed(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void onSuccess(List<Blog> blogs) {
         if (null == blogs || blogs.isEmpty()) {
             return;

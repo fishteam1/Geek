@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <com.geek.csdngeek.refresh.PullRefreshRecyclerView
         android:id="@+id/rv_blog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:padding="10dp" />
 
 </LinearLayout>

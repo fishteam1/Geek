@@ -8,10 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.morse.mvplibrary.mvp.BaseContract;
+import com.morse.mvplibrary.ui.fragment.MVPFragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends Fragment {
+/**
+ * 实现懒加载fragment基类
+ *
+ * @Time:2017/9/16 15:27
+ * @Description:
+ */
+public abstract class BaseMVPFragment<V extends BaseContract.IView, P extends BaseContract.IPresenter<V>> extends MVPFragment<V, P> {
 
     protected Context mContext;
     protected View mView;
